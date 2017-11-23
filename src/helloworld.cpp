@@ -1,8 +1,13 @@
+
+#include "reality/spacemanager.cpp"
 #include <iostream>
 
-//
-// Created by Manki on 10/24/2017.
-//
 int main(){
-    std::cout << "hello world";
+    reality::SpaceManager spaceManager(1, 2, 3);
+    std::cout << spaceManager.removeItem(reality::Item("ID", reality::Location(0,0,0), 1, 'C'));
+    std::cout << spaceManager.putItem(reality::Item("ID", reality::Location(0,0,0), 1, 'C'));
+    std::cout << spaceManager.removeItem(reality::Item("ID", reality::Location(0,0,0), 1, 'C'));
+    std::cout << spaceManager.putItem(reality::Item("ID", reality::Location(0,0,0), 1, 'C'));
+    std::cout << spaceManager.putItem(reality::Item("ID", reality::Location(0,0,0), 1, 'C'));
+
 }
