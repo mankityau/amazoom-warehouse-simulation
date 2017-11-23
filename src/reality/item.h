@@ -9,10 +9,11 @@ namespace reality{
     private:
         std::string id;
         Location currentLocation;
-        int deltaZ;
+        Location deltaLocation;
         char symbol;
     public:
-        Item(std::string id, Location initLocation, int deltaZ, char symbol);
+        Item(std::string id, Location initLocation, char symbol);
+        Item(std::string id, Location initLocation, Location deltaLocation, char symbol);
         std::string getId();
     };
 }

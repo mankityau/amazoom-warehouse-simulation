@@ -2,11 +2,12 @@
 #include "location.cpp"
 
 namespace reality{
-    Item::Item(std::string id, Location initLocation, int deltaZ, char symbol) : currentLocation(initLocation){
+    Item::Item(std::string id, Location initLocation, Location deltaLocation, char symbol) : currentLocation(initLocation) , deltaLocation(deltaLocation){
         this->id = id;
-        this->deltaZ = deltaZ;
         this->symbol = symbol;
     }
+
+    Item::Item(std::string id, Location initLocation, char symbol) : Item(id, initLocation, initLocation, symbol){};
 
     std::string Item::getId(){
         return id;
