@@ -11,9 +11,11 @@ namespace reality{
         Location currentLocation;
         Location deltaLocation;
         char symbol;
+        bool occupySpace;
     public:
         Item(std::string id, Location initLocation, char symbol);
-        Item(std::string id, Location initLocation, Location deltaLocation, char symbol);
+        Item(std::string id, Location initLocation, char symbol, bool occupySpace);
+        Item(std::string id, Location initLocation, Location deltaLocation, char symbol, bool occupySpace);
         std::string getId();
     };
 }
