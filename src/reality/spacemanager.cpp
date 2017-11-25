@@ -6,8 +6,8 @@
 
 //TODO: Unit test this module
 namespace reality{
-    SpaceManager::SpaceManager(int x, int y, int z) {
-        this->space = new Space(x, y, z);
+    SpaceManager::SpaceManager(Location location) {
+        this->space = new Space(location);
     }
 
     bool SpaceManager::putItem(Item item) {

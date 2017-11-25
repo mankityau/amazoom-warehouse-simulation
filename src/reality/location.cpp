@@ -7,4 +7,11 @@ namespace reality{
         this->z = z;
         this->occupied = false;
     };
+
+    Location::Location(): Location(0,0,0){
+    };
+
+    bool Location::isOccupied() {
+        return this->occupied;
+    }
 }

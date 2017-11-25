@@ -1,9 +1,11 @@
 #include "space.h"
 
 namespace reality{
-    Space::Space(int x, int y, int z){
-        this->x = x;
-        this->y = y;
-        this->z = z;
+    Space::Space(Location deltaLocation){
+
+    }
+
+    bool Space::isOccupied(Location location){
+        return this->locations[1].isOccupied();
     }
 }

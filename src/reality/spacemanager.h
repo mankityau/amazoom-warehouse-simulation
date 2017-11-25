@@ -13,7 +13,7 @@ namespace reality{
         std::map<std::string, Item> items;
 
     public:
-        SpaceManager(int x, int y, int z);
+        SpaceManager(Location location);
         bool putItem(Item item);
         bool removeItem(Item item);
         bool attemptMove(Item item, Location location);

@@ -9,7 +9,9 @@ namespace reality{
         int z;
         bool occupied;
     public:
+        Location();
         Location(int x, int y, int z);
+        bool isOccupied();
     };
 }
 
