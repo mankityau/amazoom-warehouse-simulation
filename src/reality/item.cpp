@@ -33,7 +33,7 @@ namespace reality{
     char Item::getSymbol() {
         return symbol;
     };
-    bool Item::getOccupySpace() {
+    bool Item::isOccupySpace() {
         return occupySpace;
     };
 

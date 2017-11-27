@@ -37,7 +37,7 @@ namespace reality{
         Location getCurrentLocation();
         Location getDeltaLocation();
         char getSymbol();
-        bool getOccupySpace();
+        bool isOccupySpace();
 
         bool setCurrentLocation(Location location);
     };
