@@ -1,15 +1,14 @@
 #include "location.h"
 
 namespace reality{
-    Location::Location(int x, int y, int z) {
+    Location::Location(int x, int y, int z) : Location(x, y, z, false) {};
+
+    Location::Location(int x, int y, int z, bool occupied) {
         this->x = x;
         this->y = y;
         this->z = z;
-        this->occupied = false;
-    };
-
-    Location::Location(): Location(0,0,0){
-    };
+        this->occupied = occupied;
+    }
 
     bool Location::equal(Location other) {
         return ((x == other.getX()) &&
@@ -29,5 +28,10 @@ namespace reality{
     };
     int Location::getZ() {
         return this->z;
+    };
+
+    bool Location::setOccupy(bool occupy) {
+        this->occupied = occupy;
+        return true;
     };
 }

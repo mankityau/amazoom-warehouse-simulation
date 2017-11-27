@@ -12,7 +12,11 @@ namespace reality{
     }
 
     bool SpaceManager::putItem(Item item) {
-        return this->itemSpace->get()->putItem(item);
+        bool put = this->itemSpace->get()->putItem(item);
+        if (put && item.isOccupySpace()) {
+            this->space->get()->occupySpace(item.getCurrentLocation(), item.getDeltaLocation());
+        }
+        return put;
     }
 
     bool SpaceManager::removeItem(Item item) {
@@ -26,8 +30,7 @@ namespace reality{
     bool SpaceManager::initSpace(std::string id, Location dimension) {
         this->space = new cpen333::process::shared_object<Space>("SPACE_" +id); //TODO: refactor "SPACE_" out maybe?
         if(this->space->get()->getId() != id){
-            this->space->get()->setId(id);
-            this->space->get()->setDimension(dimension);
+            this->space->get()->initSpace(id, dimension);
         }
 
         return true;
