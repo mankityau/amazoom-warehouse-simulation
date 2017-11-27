@@ -2,8 +2,10 @@
 #include "realityexception.h"
 
 namespace reality{
-    int getArrayIndex(int x, int y, int z, Location dimension){
-        return z * dimension.getX() * dimension.getY() + y * dimension.getX() + x;
+    int getArrayIndex(Location location, Location dimension){
+        return location.getZ() * dimension.getX() * dimension.getY() +
+                location.getY() * dimension.getX() +
+                location.getX();
     }
 
     bool validOccupySpace(Location location, Location dimension, Location maxDimension){
@@ -18,7 +20,7 @@ namespace reality{
         for (int z = 0; z < dimension.getZ(); ++z) {
             for (int y = 0; y < dimension.getY(); ++y) {
                 for (int x = 0; x < dimension.getX(); ++x){
-                    this->locations[getArrayIndex(x, y, z, this->dimension)] = {x,y,z};
+                    this->locations[getArrayIndex({x, y, z}, this->dimension)] = {x,y,z};
                 }
             }
         }
@@ -29,7 +31,7 @@ namespace reality{
             for (int z = location.getZ(); z < dimension.getZ(); ++ z) {
                 for (int y = location.getY(); y < dimension.getY(); ++ y) {
                     for (int x = location.getX(); x < dimension.getX(); ++ x){
-                        int arrayIndex = getArrayIndex(x, y, z, this->dimension);
+                        int arrayIndex = getArrayIndex({x, y, z}, this->dimension);
                         if (this->locations[arrayIndex].isOccupied() && occupyStatus) {
                             throw reality::SpaceOccupiedException();
                         } else {
@@ -43,7 +45,7 @@ namespace reality{
     }
 
     bool Space::isOccupied(Location location){
-        return this->locations[getArrayIndex(location.getX(), location.getZ(), location.getZ(), this->dimension)].isOccupied();
+        return this->locations[getArrayIndex(location, this->dimension)].isOccupied();
     }
 
     bool Space::setId(std::string id){
