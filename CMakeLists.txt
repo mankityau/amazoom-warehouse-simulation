@@ -6,4 +6,5 @@ include_directories(lib)
 # access to src/ files for tests
 include_directories(src)
 
-add_executable(helloworld src/helloworld.cpp)
+add_subdirectory(src)
+add_subdirectory(test)
