@@ -6,16 +6,20 @@
 #include <cpen333/process/shared_memory.h>
 #include "item.h"
 #include "space.h"
+#include "itemspace.h"
 
 namespace reality{
     class SpaceManager {
     private:
-        std::string spaceId;
+        std::string id;
         cpen333::process::shared_object<Space> *space;
-        std::map<std::string, Item> items;
+        cpen333::process::shared_object<ItemSpace> *itemSpace;
+
+        bool initSpace(std::string spaceId, Location dimension);
+        bool initItemSpace(std::string spaceId);
 
     public:
-        SpaceManager(std::string spaceId);
+        SpaceManager(std::string id, Location dimension);
         bool putItem(Item item);
         bool removeItem(Item item);
         bool attemptMove(Item item, Location location);

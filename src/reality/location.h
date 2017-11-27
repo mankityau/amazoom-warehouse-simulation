@@ -11,7 +11,11 @@ namespace reality{
     public:
         Location();
         Location(int x, int y, int z);
+        bool equal(Location other);
         bool isOccupied();
+        int getX();
+        int getY();
+        int getZ();
     };
 }
 

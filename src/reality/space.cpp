@@ -1,10 +1,6 @@
 #include "space.h"
 
 namespace reality{
-    Space::Space(Location deltaLocation){
-
-    }
-
     bool Space::isOccupied(Location location){
         return this->locations[1].isOccupied();
     }
@@ -13,6 +9,11 @@ namespace reality{
         this->id = id;
         return true;
     }
+
+    bool Space::setDimension(Location dimension){
+        this->dimension = dimension;
+        return true;
+    };
 
     std::string Space::getId(){
         return this->id;
