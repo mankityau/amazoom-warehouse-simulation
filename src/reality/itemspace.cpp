@@ -3,14 +3,14 @@
 
 namespace reality{
     bool ItemSpace::emptyAll(){
-        for (auto it = items.begin(); it != items.end(); ++it){
-            *it = EMPTY_ITEM;
+        for (int i = 0; i < MAX_SPACE_CAPACITY; ++i) {
+            items[i] = EMPTY_ITEM;
         }
         return true;
     }
 
     bool ItemSpace::putItem(Item item) {
-        for (int i = 0; i < items.size(); ++i) {
+        for (int i = 0; i < MAX_SPACE_CAPACITY; ++i) {
             if (item.equal(items[i])) {
                 return false;
             } else if (EMPTY_ITEM.equal(items[i])) {
@@ -22,7 +22,7 @@ namespace reality{
     }
 
     bool ItemSpace::removeItem(Item item){
-        for (int i = 0; i < items.size(); ++i) {
+        for (int i = 0; i < MAX_SPACE_CAPACITY; ++i) {
             if (item.equal(items[i])) {
                 items[i] = EMPTY_ITEM;
                 return true;
@@ -33,7 +33,7 @@ namespace reality{
     };
 
     bool ItemSpace::updateItemLocation(Item& item, Location newLocation) {
-        for (int i = 0; i < items.size(); ++i) {
+        for (int i = 0; i < MAX_SPACE_CAPACITY; ++i) {
             if (item.equal(items[i])) {
                 item.setCurrentLocation(newLocation);
                 items[i] = item;

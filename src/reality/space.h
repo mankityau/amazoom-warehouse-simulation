@@ -14,7 +14,7 @@ namespace reality{
     public:
         bool initSpace(std::string id, Location dimension);
 
-        bool occupySpace(Location location, Location dimension);
+        bool updateOccupyStatus(Location location, Location dimension, bool occupyStatus);
 
         bool isOccupied(Location location);
         std::string getId();

@@ -8,7 +8,7 @@ namespace reality{
     class ItemSpace {
     private:
         std::string id;
-        std::array<Item, MAX_SPACE_CAPACITY> items;
+        Item items[MAX_SPACE_CAPACITY];
     public:
         bool emptyAll();
         bool putItem(Item item);

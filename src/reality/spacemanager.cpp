@@ -3,10 +3,14 @@
 #include "spacemanager.h"
 #include "space.cpp"
 #include "itemspace.cpp"
+#include "realityexception.h"
 
 //TODO: Unit test this module
 namespace reality{
     SpaceManager::SpaceManager(std::string id, Location dimension){
+        if (dimension.equal({0,0,0})){
+            throw reality::ZeroDimensionException();
+        }
         initSpace(id, dimension);
         initItemSpace(id);
     }
@@ -14,13 +18,17 @@ namespace reality{
     bool SpaceManager::putItem(Item item) {
         bool put = this->itemSpace->get()->putItem(item);
         if (put && item.isOccupySpace()) {
-            this->space->get()->occupySpace(item.getCurrentLocation(), item.getDeltaLocation());
+            this->space->get()->updateOccupyStatus(item.getCurrentLocation(), item.getDeltaLocation(), true);
         }
         return put;
     }
 
     bool SpaceManager::removeItem(Item item) {
-        return this->itemSpace->get()->removeItem(item);
+        bool removed = this->itemSpace->get()->removeItem(item);
+        if (removed && item.isOccupySpace()) {
+            this->space->get()->updateOccupyStatus(item.getCurrentLocation(), item.getDeltaLocation(), false);
+        }
+        return removed;
     }
 
     bool SpaceManager::updateLocation(Item& item, Location location) {

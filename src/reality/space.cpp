@@ -1,8 +1,9 @@
 #include "space.h"
+#include "realityexception.h"
 
 namespace reality{
-    int getArrayIndex(int x, int y, int z){
-        return z * ( x * y) + y * x + x;
+    int getArrayIndex(int x, int y, int z, Location dimension){
+        return z * dimension.getX() * dimension.getY() + y * dimension.getX() + x;
     }
 
     bool validOccupySpace(Location location, Location dimension, Location maxDimension){
@@ -14,25 +15,25 @@ namespace reality{
     bool Space::initSpace(std::string id, Location dimension) {
         this->id = id;
         this->dimension = dimension;
-        for (int x = 0; x < dimension.getX(); ++x) {
+        for (int z = 0; z < dimension.getZ(); ++z) {
             for (int y = 0; y < dimension.getY(); ++y) {
-                for (int z = 0; z < dimension.getZ(); ++z){
-                    this->locations[getArrayIndex(x, y, z)] = {x,y,z};
+                for (int x = 0; x < dimension.getX(); ++x){
+                    this->locations[getArrayIndex(x, y, z, this->dimension)] = {x,y,z};
                 }
             }
         }
     }
 
-    bool Space::occupySpace(Location location, Location dimension){
+    bool Space::updateOccupyStatus(Location location, Location dimension, bool occupyStatus){
         if (validOccupySpace(location, dimension, this->dimension)) {
-            for (int x = location.getX(); x < dimension.getX(); ++ x) {
+            for (int z = location.getZ(); z < dimension.getZ(); ++ z) {
                 for (int y = location.getY(); y < dimension.getY(); ++ y) {
-                    for (int z = location.getZ(); z < dimension.getZ(); ++ z){
-                        int arrayIndex = getArrayIndex(x, y, z);
-                        if (this->locations[arrayIndex].isOccupied()) {
-                            std::cout << "THIS SPACE IS OCCUPIED"; //TODO throw exception here
+                    for (int x = location.getX(); x < dimension.getX(); ++ x){
+                        int arrayIndex = getArrayIndex(x, y, z, this->dimension);
+                        if (this->locations[arrayIndex].isOccupied() && occupyStatus) {
+                            throw reality::SpaceOccupiedException();
                         } else {
-                            this->locations[getArrayIndex(x, y, z)].setOccupy(true);
+                            this->locations[arrayIndex].setOccupy(occupyStatus);
                         }
                     }
                 }
@@ -42,7 +43,7 @@ namespace reality{
     }
 
     bool Space::isOccupied(Location location){
-        return this->locations[getArrayIndex(location.getX(), location.getZ(), location.getZ())].isOccupied();
+        return this->locations[getArrayIndex(location.getX(), location.getZ(), location.getZ(), this->dimension)].isOccupied();
     }
 
     bool Space::setId(std::string id){
