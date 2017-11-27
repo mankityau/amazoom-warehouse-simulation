@@ -6,8 +6,13 @@
 
 //TODO: Unit test this module
 namespace reality{
-    SpaceManager::SpaceManager(Location location) {
-        this->space = new Space(location);
+    SpaceManager::SpaceManager(std::string spaceId){
+        this->space = new cpen333::process::shared_object<Space>(spaceId);
+        if(this->space->get()->getId() == spaceId){
+            std::cout << "SPACE ALREADY EXIST";
+        } else {
+            this->space->get()->setId(spaceId);
+        }
     }
 
     bool SpaceManager::putItem(Item item) {
