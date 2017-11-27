@@ -14,6 +14,7 @@ namespace reality{
         bool putItem(Item item);
         bool removeItem(Item item);
         bool setId(std::string id);
+        bool updateItemLocation(Item& item, Location newLocation);
         std::string getId();
     };
 }

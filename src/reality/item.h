@@ -38,6 +38,8 @@ namespace reality{
         Location getDeltaLocation();
         char getSymbol();
         bool getOccupySpace();
+
+        bool setCurrentLocation(Location location);
     };
 
     Item EMPTY_ITEM = {EMPTY_ITEM_ID, {0,0,0}, EMPTY_ITEM_CHAR};

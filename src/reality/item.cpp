@@ -36,4 +36,8 @@ namespace reality{
     bool Item::getOccupySpace() {
         return occupySpace;
     };
+
+    bool Item::setCurrentLocation(Location location) {
+        this->currentLocation = location;
+    };
 }

@@ -32,6 +32,18 @@ namespace reality{
         return false;
     };
 
+    bool ItemSpace::updateItemLocation(Item& item, Location newLocation) {
+        for (int i = 0; i < items.size(); ++i) {
+            if (item.equal(items[i])) {
+                item.setCurrentLocation(newLocation);
+                items[i] = item;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     bool ItemSpace::setId(std::string id) {
         this->id = id;
         return true;

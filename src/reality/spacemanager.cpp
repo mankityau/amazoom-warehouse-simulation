@@ -19,9 +19,8 @@ namespace reality{
         return this->itemSpace->get()->removeItem(item);
     }
 
-    bool SpaceManager::attemptMove(Item item, Location location) {
-        //TODO : finish implementation.
-        return false;
+    bool SpaceManager::updateLocation(Item& item, Location location) {
+        return this->itemSpace->get()->updateItemLocation(item, location);
     }
 
     bool SpaceManager::initSpace(std::string id, Location dimension) {

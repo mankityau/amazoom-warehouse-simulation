@@ -22,7 +22,7 @@ namespace reality{
         SpaceManager(std::string id, Location dimension);
         bool putItem(Item item);
         bool removeItem(Item item);
-        bool attemptMove(Item item, Location location);
+        bool updateLocation(Item& item, Location location);
     };
 }
 
