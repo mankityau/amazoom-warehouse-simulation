@@ -61,4 +61,8 @@ namespace reality{
     std::string Space::getId(){
         return this->id;
     }
+
+    Location Space::getDimension(){
+        return this->dimension;
+    };
 }

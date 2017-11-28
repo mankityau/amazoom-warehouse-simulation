@@ -20,9 +20,11 @@ namespace reality{
 
     public:
         SpaceManager(std::string id, Location dimension);
+        Item* getItemsSnapShot();
         bool putItem(Item item);
         bool removeItem(Item item);
         bool updateLocation(Item& item, Location location);
+        Location getSpaceDimension();
     };
 }
 

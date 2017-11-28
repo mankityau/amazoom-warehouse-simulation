@@ -3,7 +3,7 @@
 
 #include <string>
 
-#define MAX_SPACE_CAPACITY 200
+#define MAX_SPACE_CAPACITY 500
 
 namespace reality{
     class Space {
@@ -18,6 +18,7 @@ namespace reality{
 
         bool isOccupied(Location location);
         std::string getId();
+        Location getDimension();
 
         bool setId(std::string id);
         bool setDimension(Location dimension);
