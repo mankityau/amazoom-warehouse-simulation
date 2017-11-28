@@ -10,10 +10,16 @@ namespace reality{
     SpaceManager::SpaceManager(std::string id, Location dimension){
         if (dimension.equal({0,0,0})){
             throw reality::ZeroDimensionException();
+        } else if (dimension.getX() * dimension.getY() * dimension.getZ() > MAX_SPACE_CAPACITY) {
+            throw reality::TooBigDimensionException();
         }
         initSpace(id, dimension);
         initItemSpace(id);
     }
+
+    Item* SpaceManager::getItemsSnapShot(){
+        return itemSpace->get()->getItemsSnapShot();
+    };
 
     bool SpaceManager::putItem(Item item) {
         bool put = this->itemSpace->get()->putItem(item);
@@ -36,6 +42,7 @@ namespace reality{
     }
 
     bool SpaceManager::initSpace(std::string id, Location dimension) {
+
         this->space = new cpen333::process::shared_object<Space>("SPACE_" +id); //TODO: refactor "SPACE_" out maybe?
         if(this->space->get()->getId() != id){
             this->space->get()->initSpace(id, dimension);
@@ -51,5 +58,9 @@ namespace reality{
         }
 
         return true;
+    }
+
+    Location SpaceManager::getSpaceDimension(){
+        return this->space->get()->getDimension();
     }
 }

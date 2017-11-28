@@ -15,6 +15,12 @@ namespace reality {
             return "Space is occupied";
         }
     };
+
+    class TooBigDimensionException : public std::exception {
+        const char* what() noexcept {
+            return "Dimension too big";
+        }
+    };
 }
 
 #endif //AMAZOOM_WAREHOUSE_SIMULATION_REALITYEXCEPTION_H

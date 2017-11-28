@@ -52,4 +52,9 @@ namespace reality{
     std::string ItemSpace::getId(){
         return this->id;
     }
+
+    Item* ItemSpace::getItemsSnapShot(){
+        Item* temp = {this->items};
+        return temp;
+    };
 }
