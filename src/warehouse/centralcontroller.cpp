@@ -13,7 +13,7 @@ namespace warehouse {
 
     CentralController::CentralController() :
     layoutManager("./../../data/layout/layout1.json"),
-    inventoryManager("./../../data/merchandisecatalog.json", "./../../data/carrymerchandise/carrymerchandise1.json"){//getInput("Layout file name for layout")){
+    inventoryManager(layoutManager.getShelfSpaces(), "./../../data/merchandisecatalog.json", "./../../data/carrymerchandise/carrymerchandise1.json"){//getInput("Layout file name for layout")){
     }
 }
 

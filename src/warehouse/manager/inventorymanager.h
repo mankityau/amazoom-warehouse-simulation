@@ -6,10 +6,11 @@
 namespace warehouse {
     class InventoryManager {
     private:
-        std::map<int, warehouse::Merchandise> merchandiseCatalog;
-        std::map<int, int> targetMerchandiseQuantity;
+        const std::map<int, warehouse::Merchandise> merchandiseCatalog;
+        const std::map<int, int> targetMerchandiseQuantity;
+        const std::vector<warehouse::ShelfSpace> shelfSpaces;
     public:
-        InventoryManager(std::string catalogFileName, std::string carryMerchandiseFileName);
+        InventoryManager(std::vector<warehouse::ShelfSpace> shelfSpaces, std::string catalogFileName, std::string carryMerchandiseFileName);
     };
 }
 
