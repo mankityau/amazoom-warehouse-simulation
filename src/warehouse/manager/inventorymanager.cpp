@@ -39,7 +39,10 @@ namespace warehouse {
         throw warehouse::InitManagerException();
     };
 
-    InventoryManager::InventoryManager(std::string catalogFileName, std::string carryMerchandiseFileName) :
+    InventoryManager::InventoryManager(std::vector<warehouse::ShelfSpace> shelfSpaces,
+                                       std::string catalogFileName,
+                                       std::string carryMerchandiseFileName) :
+            shelfSpaces(shelfSpaces),
             merchandiseCatalog(loadMerchandiseCatalog(catalogFileName)) ,
             targetMerchandiseQuantity(loadTargetMerchandiseQuantity(carryMerchandiseFileName)){
 
