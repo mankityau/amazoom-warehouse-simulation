@@ -16,7 +16,3 @@ namespace warehouse {
     inventoryManager(layoutManager.getShelfSpaces(), "./../../data/merchandisecatalog.json", "./../../data/carrymerchandise/carrymerchandise1.json"){//getInput("Layout file name for layout")){
     }
 }
-
-int main(){
-    warehouse::CentralController centralController;
-}

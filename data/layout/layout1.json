@@ -1,8 +1,8 @@
 {
   "dimension": {
-    "x": 10,
-    "y": 20,
-    "z": 10
+    "length": 10,
+    "width": 20,
+    "height": 10
   },
   "shelfProperty": {
     "maxCapacityPerShelf" : 10

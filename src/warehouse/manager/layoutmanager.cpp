@@ -4,9 +4,9 @@
 #include <json.hpp>
 
 #define DIMENSION "dimension"
-#define X "x"
-#define Y "y"
-#define Z "z"
+#define LENGTH "length"
+#define WIDTH "width"
+#define HEIGHT "height"
 
 #define SHELF_PROPERTY "shelfProperty"
 #define MAX_CAP_PER_SHELF "maxCapacityPerShelf"
@@ -19,9 +19,9 @@ namespace warehouse{
         if (fin.is_open()){
             JSON layoutJson;
             fin >> layoutJson;
-            warehouse::Dimension d = {layoutJson[DIMENSION][X],
-                                      layoutJson[DIMENSION][Y],
-                                      layoutJson[DIMENSION][Z]};
+            warehouse::Dimension d = {layoutJson[DIMENSION][LENGTH],
+                                      layoutJson[DIMENSION][WIDTH],
+                                      layoutJson[DIMENSION][HEIGHT]};
             return d;
         }
         throw warehouse::InitManagerException();
