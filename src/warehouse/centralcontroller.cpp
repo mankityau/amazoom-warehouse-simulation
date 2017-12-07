@@ -22,8 +22,10 @@ namespace warehouse {
     NewOrderResponse CentralController::newOrder(std::vector<int> merchandiseIds) {
         int orderId = orderManager.newOrder();
         if (inventoryManager.newOrder(orderId, merchandiseIds)){
+            orderManager.updateOrderStatus(orderId, PACKAGING);
             return {true, orderId};
         } else {
+            orderManager.removeOrder(orderId);
             return {false, orderId};
         }
     }
