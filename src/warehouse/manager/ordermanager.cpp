@@ -6,7 +6,7 @@ namespace warehouse{
 
     int OrderManager::newOrder() {
         {
-            std::unique_lock<std::mutex>(orderManagerMutex);
+            std::lock_guard<std::mutex> lock(orderManagerMutex);
             int orderId = nextOrderId;
             orderStatusMap.insert({nextOrderId, PENDING});
             ++nextOrderId;
@@ -16,14 +16,14 @@ namespace warehouse{
 
     bool OrderManager::updateOrderStatus(int orderId, OrderStatus orderStatus) {
         {
-            std::unique_lock<std::mutex>(orderManagerMutex);
+            std::lock_guard<std::mutex> lock(orderManagerMutex);
             orderStatusMap[orderId] = orderStatus;
         }
     }
 
     bool OrderManager::removeOrder(int orderId) {
         {
-            std::unique_lock<std::mutex>(orderManagerMutex);
+            std::lock_guard<std::mutex> lock(orderManagerMutex);
             orderStatusMap.erase(orderId);
         }
     }

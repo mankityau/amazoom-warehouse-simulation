@@ -6,6 +6,23 @@
 #define QUANTITY "quantity"
 
 namespace warehouse {
+    bool available(const std::map<int, int> *availableMerchandiseQuantity,
+                   const std::map<int, int> *orderMerchandiseQuantity){
+        for (std::map<int, int>::const_iterator it = orderMerchandiseQuantity->begin(); it != orderMerchandiseQuantity->end(); ++it){
+            if (availableMerchandiseQuantity->at(it->first) < it->second) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void reduceAvailable(std::map<int, int> *availableMerchandiseQuantity,
+                         const std::map<int, int> *orderMerchandiseQuantity) {
+        for (std::map<int, int>::const_iterator it = orderMerchandiseQuantity->begin(); it != orderMerchandiseQuantity->end(); ++it){
+            availableMerchandiseQuantity->at(it->first) -= it->second;
+        }
+    }
+
     std::map<int, warehouse::Merchandise> loadMerchandiseCatalog(std::string catalogFileName) {
         std::map<int, warehouse::Merchandise> catalog;
 
@@ -44,7 +61,29 @@ namespace warehouse {
                                        std::string carryMerchandiseFileName) :
             shelfSpaces(shelfSpaces),
             merchandiseCatalog(loadMerchandiseCatalog(catalogFileName)) ,
-            targetMerchandiseQuantity(loadTargetMerchandiseQuantity(carryMerchandiseFileName)){
+            targetMerchandiseQuantity(loadTargetMerchandiseQuantity(carryMerchandiseFileName)),
+            availableMerchandiseQuantity(targetMerchandiseQuantity),
+            inStockMerchandiseQuantity(targetMerchandiseQuantity) {
+    }
+
+    bool InventoryManager::newOrder(const int orderId, const std::vector<int> merchandiseIds) {
+        std::map<int, int> orderMerchandiseQuantity;
+        for (std::vector<int>::const_iterator it = merchandiseIds.begin(); it != merchandiseIds.end(); ++it){
+            if (orderMerchandiseQuantity.count(*it) == 0){
+                orderMerchandiseQuantity[*it] = 1;
+            } else {
+                orderMerchandiseQuantity[*it] = orderMerchandiseQuantity[*it] + 1;
+            }
+        }
+        {
+            std::lock_guard<std::mutex> lock(inventoryMangerMutex);
+            if (available(&availableMerchandiseQuantity, &orderMerchandiseQuantity)) {
+                reduceAvailable(&availableMerchandiseQuantity, &orderMerchandiseQuantity);
+                return true;
+            } else {
+                return false;
+            }
+        }
 
     }
 }

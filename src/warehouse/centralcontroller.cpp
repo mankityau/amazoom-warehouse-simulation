@@ -21,11 +21,10 @@ namespace warehouse {
     //TODO fix this mock
     NewOrderResponse CentralController::newOrder(std::vector<int> merchandiseIds) {
         int orderId = orderManager.newOrder();
-        if (merchandiseIds.size() > 2){
-            return {false, orderId};
-        } else {
+        if (inventoryManager.newOrder(orderId, merchandiseIds)){
             return {true, orderId};
-
+        } else {
+            return {false, orderId};
         }
     }
 }
