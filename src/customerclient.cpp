@@ -9,6 +9,7 @@ void printMenu(){
     std::cout << "=                  MENU                 =" << std::endl;
     std::cout << "=========================================" << std::endl;
     std::cout << " (1) Order Item" << std::endl;
+    std::cout << " (2) Quit" << std::endl;
     std::cout << "=========================================" << std::endl;
     std::cout << "Enter number: ";
     std::cout.flush();
