@@ -15,8 +15,14 @@ namespace warehouse {
     layoutManager("./../../data/layout/layout1.json"),
     inventoryManager(layoutManager.getShelfSpaces(), "./../../data/merchandisecatalog.json", "./../../data/carrymerchandise/carrymerchandise1.json"){//getInput("Layout file name for layout")){
     }
-}
 
-int main(){
-    warehouse::CentralController centralController;
+    //TODO fix this mock
+    NewOrderResponse CentralController::newOrder(std::vector<int> merchandiseIds) {
+        if (merchandiseIds.size() > 2){
+            return {false, 0};
+        } else {
+            return {true, 100};
+
+        }
+    }
 }
