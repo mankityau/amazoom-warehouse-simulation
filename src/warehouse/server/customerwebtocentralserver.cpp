@@ -3,14 +3,19 @@
 #include "../../api/customerwebtocentral/customerwebtocentralapi.cpp"
 
 namespace warehouse{
-    void service(api::CustomerWebToCentralApi &&api){
+    void service(warehouse::CentralController *centralController, api::CustomerWebToCentralApi &&api){
         std::unique_ptr<api::RequestInterface> request = api.receiveRequest();
         while (request != nullptr){
             std::string functionName = request->functionName();{
-                if (functionName == "foo"){
-                    std::cout << "RECIEVED A FOO REQUEST";
+                if (functionName == ORDER_FUNCTION){
+                    api::OrderRequest &orderRequest = (api::OrderRequest &)(*request);
+                    warehouse::NewOrderResponse newOrderResponse = centralController->newOrder(orderRequest.merchandiseId);
+                    api::OrderResponse orderResponse(newOrderResponse.success, newOrderResponse.orderId);
+                    api.sendResponse(orderResponse);
                 }
             }
+
+            request = api.receiveRequest();
         }
     }
 
@@ -26,7 +31,7 @@ namespace warehouse{
         while (server.accept(client)) {
             std::cout << "CLIENT CONNECTED \n";
             api::CustomerWebToCentralApi api(std::move(client));
-            std::thread thread(service, std::move(api));
+            std::thread thread(service, std::ref(centralController),std::move(api));
             thread.detach();
         }
 

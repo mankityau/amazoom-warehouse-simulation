@@ -3,8 +3,13 @@
 
 #include <warehouse/manager/layoutmanager.h>
 #include "warehouse/manager/inventorymanager.h"
+#include <vector>
 
 namespace warehouse {
+    struct NewOrderResponse{
+        const bool success;
+        const int orderId;
+    };
     class CentralController {
     private:
         LayoutManager layoutManager;
@@ -12,6 +17,7 @@ namespace warehouse {
 
     public:
         CentralController();
+        NewOrderResponse newOrder(std::vector<int> merchandiseIds);
 
     };
 }

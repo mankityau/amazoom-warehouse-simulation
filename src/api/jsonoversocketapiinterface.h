@@ -165,6 +165,35 @@ namespace api{
 
             return jsonConverter()->parseRequest(jreq);
         }
+        
+        bool sendResponse(const ResponseInterface &resp) {
+            JSON jresp = jsonConverter()->toJSON(resp);
+
+            // write single JSON byte
+            char id = JSON_ID;
+            if (!socket_.write(&id, 1)) {
+                return false;
+            }
+            // write JSON content
+            return sendJSON(jresp);
+        }
+
+        std::unique_ptr<ResponseInterface> receiveResp() {
+
+            // parse first byte, ensure it is of JSON type
+            char id;
+            if (!socket_.read_all(&id, 1) || id != JSON_ID) {
+                return nullptr;
+            }
+
+            // if it is a JSON string, parse into a message
+            JSON jresp;
+            if (!recvJSON(jresp)) {
+                return nullptr;
+            }
+
+            return jsonConverter()->parseResponse(jresp);
+        }
     };
 }
 #endif //AMAZOOM_WAREHOUSE_SIMULATION_JSONOVERSOCKETAPIINTERFACE_H
