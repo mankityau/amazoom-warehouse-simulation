@@ -15,6 +15,9 @@ namespace warehouse {
     private:
         std::mutex orderManagerMutex;
         std::map<int, OrderStatus> orderStatusMap;
+        std::map<int, int> orderIdCapacityMap;
+        std::map<int, std::vector<warehouse::ShelfSpace>> orderIdShelfSpaceMap;
+        std::map<int, std::vector<warehouse::Merchandise>> orderIdMerchandisesMap;
         int nextOrderId = 0;
     public:
         /**
@@ -41,6 +44,15 @@ namespace warehouse {
          * @return
          */
         bool removeOrder(int orderId);
+
+        /**
+         * add a pending delivery merchandise, and shelfSpace to a orderId
+         * @param orderId
+         * @param merchandise
+         * @param shelfSpace
+         * @return
+         */
+        bool addMerchandise(int orderId, warehouse::Merchandise merchandise, warehouse::ShelfSpace shelfSpace);
     };
 }
 

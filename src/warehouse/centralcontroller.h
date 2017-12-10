@@ -4,6 +4,7 @@
 #include "warehouse/manager/layoutmanager.h"
 #include "warehouse/manager/inventorymanager.h"
 #include "warehouse/manager/ordermanager.h"
+#include "manager/shelfspacemanager.h"
 #include <vector>
 
 namespace warehouse {
@@ -16,6 +17,7 @@ namespace warehouse {
         LayoutManager layoutManager;
         InventoryManager inventoryManager;
         OrderManager orderManager;
+        ShelfSpaceManager shelfSpaceManager;
 
     public:
         CentralController();
