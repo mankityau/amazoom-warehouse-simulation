@@ -2,6 +2,7 @@
 #define AMAZOOM_WAREHOUSE_SIMULATION_COMMON_H
 
 #include <string>
+#include <tuple>
 
 namespace warehouse {
     struct Dimension{
@@ -15,12 +16,22 @@ namespace warehouse {
         const int maxWeightCapacity;
         const int row;
         const int col;
+
+        bool operator<(const ShelfSpace& other) const {
+            return std::tie(shelfId, row, col, maxWeightCapacity)
+                   < std::tie(other.shelfId, other.row, other.col, other.maxWeightCapacity);
+        }
     };
 
     struct Merchandise{
         const int id;
         const std::string name;
         const int weight;
+
+        bool operator<(const Merchandise& other) const {
+            return std::tie(id, name, weight)
+                   < std::tie(other.id, other.name, other.weight);
+        }
     };
 }
 #endif //AMAZOOM_WAREHOUSE_SIMULATION_COMMON_H

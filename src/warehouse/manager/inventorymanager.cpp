@@ -39,12 +39,68 @@ namespace warehouse {
         throw warehouse::InitManagerException();
     };
 
+    std::map<const int, std::vector<warehouse::ShelfSpace>> initAvailableMerchandiseShelfSpaceMap(std::map<int, int> targetMerchandiseQuantity) {
+        std::map<const int, std::vector<warehouse::ShelfSpace>> availableMerchandiseShelfSpaceMap;
+        for (std::map<int, int>::iterator it = targetMerchandiseQuantity.begin(); it != targetMerchandiseQuantity.end(); ++it){
+            availableMerchandiseShelfSpaceMap.insert({it->first, {}});
+        }
+
+        return availableMerchandiseShelfSpaceMap;
+    };
+
     InventoryManager::InventoryManager(std::vector<warehouse::ShelfSpace> shelfSpaces,
                                        std::string catalogFileName,
                                        std::string carryMerchandiseFileName) :
-            shelfSpaces(shelfSpaces),
             merchandiseCatalog(loadMerchandiseCatalog(catalogFileName)) ,
-            targetMerchandiseQuantity(loadTargetMerchandiseQuantity(carryMerchandiseFileName)){
+            targetMerchandiseQuantity(loadTargetMerchandiseQuantity(carryMerchandiseFileName)) ,
+            availableMerchandiseShelfSpaceMap(initAvailableMerchandiseShelfSpaceMap(targetMerchandiseQuantity)){
+    }
+
+    bool InventoryManager::available(const int merchandiseId, const int quantity){
+        {
+            std::lock_guard<std::mutex> lock(inventoryMangerMutex);
+            return availableMerchandiseShelfSpaceMap.at(merchandiseId).size() > quantity;
+        }
+    }
+
+
+    bool InventoryManager::pushAvailableMerchandise(const int merchandiseId, const warehouse::ShelfSpace shelfSpace){
+        {
+            std::lock_guard<std::mutex> lock(inventoryMangerMutex);
+            availableMerchandiseShelfSpaceMap.at(merchandiseId).push_back(shelfSpace);
+            return true;
+        }
+    }
+
+
+    warehouse::ShelfSpace InventoryManager::popAvailableMerchandise(const int merchandiseId) {
+        {
+            std::lock_guard<std::mutex> lock(inventoryMangerMutex);
+            warehouse::ShelfSpace shelfSpace = availableMerchandiseShelfSpaceMap.at(merchandiseId).back();
+            availableMerchandiseShelfSpaceMap.at(merchandiseId).pop_back();
+            return shelfSpace;
+        }
+    };
+
+    std::map<warehouse::Merchandise, int> InventoryManager::getLowStockItems() {
+        {
+            std::lock_guard<std::mutex> lock(inventoryMangerMutex);
+            std::map<warehouse::Merchandise, int> map;
+            for (std::map<const int, std::vector<warehouse::ShelfSpace>>::iterator it = availableMerchandiseShelfSpaceMap.begin();
+                    it != availableMerchandiseShelfSpaceMap.end();
+                    ++ it){
+                int currentQuantity = it->second.size();
+                int desiredQuantity = targetMerchandiseQuantity.at(it->first);
+                if ( currentQuantity < desiredQuantity){
+                    map.insert({merchandiseCatalog.at(it->first), desiredQuantity - currentQuantity});
+                }
+            }
+            return map;
+        }
+    };
+
+    warehouse::Merchandise InventoryManager::getMerchandiseById(const int id){
+        return merchandiseCatalog.at(id);
 
     }
 }
