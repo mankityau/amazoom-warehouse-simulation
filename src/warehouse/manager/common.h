@@ -13,6 +13,20 @@ namespace warehouse {
         const int x;
         const int y;
         const int z;
+
+        const Location& operator=(const Location& other) {
+            if (this != &other) {
+                return other;
+            }
+            return *this;
+        }
+    };
+
+    std::string toString(Location l){
+        std::string s = "Location: ";
+        char buffer [10];
+        s.append(itoa(10,buffer,l.x)).append(", ").append(itoa(10,buffer,l.y)).append(", ").append(itoa(10,buffer,l.z));
+        return s;
     };
 
     struct Path{
@@ -53,6 +67,13 @@ namespace warehouse {
             return std::tie(id, name, weight)
                    < std::tie(other.id, other.name, other.weight);
         }
+    };
+
+    std::string toString(Merchandise m){
+        std::string s = "Merchandise: ";
+        char buffer [10];
+        s.append(itoa(10,buffer,m.id)).append(", ").append(m.name);
+        return s;
     };
 
     struct BotInstructionBase {
