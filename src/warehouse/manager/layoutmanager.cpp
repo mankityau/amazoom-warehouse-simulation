@@ -93,4 +93,16 @@ namespace warehouse{
         freeLoadingBaySemaphore.notify();
         return true;
     }
+
+    // todo fix this mock
+    Path LayoutManager::pathToShelf(Location location, ShelfSpace shelfSpace){
+        Location l = {0, 0, 0};
+        return {l, l, l, l};
+    };
+
+    // todo fix this mock
+    Path LayoutManager::pathToLoadingBay(Location location, LoadingBay loadingBay) {
+        Location l = {0, 0, 0};
+        return {l, l, l, l};
+    }
 }
