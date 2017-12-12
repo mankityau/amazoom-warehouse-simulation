@@ -7,6 +7,7 @@ namespace warehouse {
     class ShelfSpaceManager {
     private:
         std::map<const warehouse::ShelfSpace, int> shelfSpaceRemainCapacityMap; //<ShelfSpace, remainCapacity>
+        void log(std::string msg);
     public:
         ShelfSpaceManager(const std::vector<warehouse::ShelfSpace> shelfSpaces);
 

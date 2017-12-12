@@ -16,7 +16,8 @@ void printMenu(){
     std::cout << "=                  MENU                 =" << std::endl;
     std::cout << "=========================================" << std::endl;
     std::cout << " (1) Add new bot" << std::endl;
-    std::cout << " (2) Quit" << std::endl;
+    std::cout << " (2) New delivery truck come" << std::endl;
+    std::cout << " (0) Quit" << std::endl;
     std::cout << "=========================================" << std::endl;
     std::cout << "Enter number: ";
     std::cout.flush();
@@ -30,8 +31,28 @@ void addBot(warehouse::CentralController* centralController, int botId){
     serverThread->detach();
 }
 
+void doNewDeliveryTruck(warehouse::CentralController* centralController) {
+    int capacity;
+    int truckId;
+    std::cout << "Enter truck capacity: ";
+    std::cout.flush();
+    std::cin >> capacity;
+    std::cout << "Enter truck id: ";
+    std::cout.flush();
+    std::cin >> truckId;
+    warehouse::LoadingBay loadingBay = centralController->deliveryArrive();
+    centralController->startDelivery(truckId, capacity, loadingBay);
+    std::cout << "Finished Delivering";
+//    warehouse::Location l = {0,0,0};
+//    centralController->botPollInstruction(l);
+//    centralController->botPollInstruction(l);
+//    centralController->botPollInstruction(l);
+//    centralController->botPollInstruction(l);
+}
+
+const char QUIT = '0';
 const char ADD_BOT = '1';
-const char QUIT = '2';
+const char NEW_DELIVERY_TRUCK = '2';
 
 void managerUI(warehouse::CentralController* centralController){
     char cmd = 0;
@@ -47,6 +68,9 @@ void managerUI(warehouse::CentralController* centralController){
             case ADD_BOT:
                 addBot(centralController, botId);
                 ++botId;
+                break;
+            case NEW_DELIVERY_TRUCK:
+                doNewDeliveryTruck(centralController);
                 break;
             case QUIT:
                 break;

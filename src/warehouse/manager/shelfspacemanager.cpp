@@ -13,12 +13,17 @@ namespace warehouse {
             shelfSpaceRemainCapacityMap(initShelfSpaceRemainCapacityMap(shelfSpaces)){
     }
 
+    void ShelfSpaceManager::log(std::string msg){
+        std::cout << "ShelfSpaceManager: " << msg << std::endl;
+    }
+
     bool ShelfSpaceManager::fill(const warehouse::ShelfSpace shelfSpace, int capacity) {
         shelfSpaceRemainCapacityMap.at(shelfSpace) -= capacity;
     }
 
     bool ShelfSpaceManager::free(const warehouse::ShelfSpace shelfSpace, int capacity) {
         shelfSpaceRemainCapacityMap.at(shelfSpace) += capacity;
+        log("Freed " + toString(shelfSpace) + "Capacity: " + std::to_string(capacity));
     }
 
     warehouse::ShelfSpace ShelfSpaceManager::findAvailable(int capacity) {

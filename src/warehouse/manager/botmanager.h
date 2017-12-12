@@ -8,6 +8,7 @@ namespace warehouse {
     class BotManager {
     private:
         DynamicInstructionQueue instructionQueue;
+        void log(std::string msg);
     public:
         bool startDeliveryOrder(int orderId, Merchandise merchandise, ShelfSpace shelfSpace, LoadingBay loadingBay);
         BotInstructionBase nextInstructionBase(Location botLocation);

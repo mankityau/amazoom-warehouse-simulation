@@ -14,6 +14,7 @@ namespace warehouse {
         const std::vector<warehouse::LoadingBay> loadingBays;
         std::vector<warehouse::LoadingBay> freeLoadingBays;
         cpen333::thread::semaphore freeLoadingBaySemaphore;
+        void log(std::string msg);
     public:
         LayoutManager(std::string fileName);
         std::vector<warehouse::ShelfSpace> getShelfSpaces();

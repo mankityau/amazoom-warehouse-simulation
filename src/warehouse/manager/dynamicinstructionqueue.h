@@ -26,7 +26,7 @@ namespace warehouse {
 
         void add(const BotInstructionBase &order) {
             {
-                std::lock_guard<decltype(mutex_)> lock(mutex_);
+                std::unique_lock<std::mutex> lock(mutex_);
                 buff_.push_back(order);
             }
             cv_.notify_one();
@@ -37,7 +37,9 @@ namespace warehouse {
         BotInstructionBase get() {
             // get first item in queue
             {
-                std::unique_lock<decltype(mutex_)> lock(mutex_);
+                std::cout << "BEFORE MUTEX BEFORE MUTEX BEFORE MUTEX BEFORE MUTEX BEFORE MUTEX";
+                std::unique_lock<std::mutex> lock(mutex_);
+                std::cout << "AFTER MUTEX AFTER MUTEX AFTER MUTEX AFTER MUTEX";
                 cv_.wait(lock, [&] () {return !buff_.empty();});
 
                 BotInstructionBase out = buff_.front();

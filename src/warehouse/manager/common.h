@@ -39,6 +39,12 @@ namespace warehouse {
         const int id;
     };
 
+    std::string toString(LoadingBay l){
+        std::string s = "LoadingBay: ";
+        s.append(" id: ").append(std::to_string(l.id));
+        return s;
+    }
+
     struct Dimension{
         const int x;
         const int y;
@@ -88,7 +94,22 @@ namespace warehouse {
         const ShelfSpace targetShelfSpace;
         const Merchandise merchandise;
         const LoadingBay loadingBay;
+
+        const BotInstructionBase& operator=(const BotInstructionBase& other) {
+            if (this != &other) {
+                return other;
+            }
+            return *this;
+        }
     };
+
+    std::string toString(BotInstructionBase b) {
+        std::string s = "BotInstructionBase: ";
+        s.append(toString(b.targetShelfSpace));
+        s.append(toString(b.merchandise));
+        s.append(toString(b.loadingBay));
+        return s;
+    }
 
     struct BotInstruction{
         const BotInstructionType botInstructionType ;
@@ -96,6 +117,13 @@ namespace warehouse {
         const Path pathToPutLoad;
         const ShelfSpace shelfSpace;
         const Merchandise merchandise;
+
+        const BotInstruction& operator=(const BotInstruction& other) {
+            if (this != &other) {
+                return other;
+            }
+            return *this;
+        }
     };
 }
 #endif //AMAZOOM_WAREHOUSE_SIMULATION_COMMON_H

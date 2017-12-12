@@ -8,6 +8,10 @@
 #include "manager/shelfspacemanager.cpp"
 
 namespace warehouse {
+    void CentralController::log(std::string msg) {
+        std::cout << "Central Controller: " << msg << std::endl;
+    }
+
     std::string getInput(std::string question){
         std::cout << question << ": ";
         std::string response;
@@ -80,12 +84,14 @@ namespace warehouse {
                 ShelfSpace shelfSpace = orderManager.shelfSpaceAt(orderId, i);
                 botManager.startDeliveryOrder(orderId, merchandise, shelfSpace,loadingBay);
             }
+            orderId = orderManager.findToDeliver(remainCapacity);
         }
         return true;
     }
 
     BotInstruction CentralController::botPollInstruction(Location botLocation) {
         BotInstructionBase botInstructionBase = botManager.nextInstructionBase(botLocation);
+
         if (botInstructionBase.botInstructionType == deliver) {
             Path pathToShelf = layoutManager.pathToShelf(botLocation, botInstructionBase.targetShelfSpace);
             Path pathToLoadingBay = layoutManager.pathToLoadingBay(pathToShelf.end, botInstructionBase.loadingBay);

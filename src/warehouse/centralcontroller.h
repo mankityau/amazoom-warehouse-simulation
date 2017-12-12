@@ -23,6 +23,7 @@ namespace warehouse {
         ShelfSpaceManager shelfSpaceManager;
         DeliveryManager deliveryManager;
         BotManager botManager;
+        void log(std::string msg);
 
     public:
         CentralController();

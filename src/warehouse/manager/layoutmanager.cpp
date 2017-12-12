@@ -28,6 +28,10 @@ namespace warehouse{
         throw warehouse::InitManagerException();
     }
 
+    void LayoutManager::log(std::string msg){
+        std::cout << "Layout Manager: " << msg << std::endl;
+    }
+
     //TODO test for boundary cases
     //TODO remove magic numbers
     std::vector<warehouse::ShelfSpace> loadShelfSpaces(std::string fileName, warehouse::Dimension dimension) {
@@ -97,12 +101,14 @@ namespace warehouse{
     // todo fix this mock
     Path LayoutManager::pathToShelf(Location location, ShelfSpace shelfSpace){
         Location l = {0, 0, 0};
+        log("Computed path from location to shelf space." + toString(location) + toString(shelfSpace));
         return {l, l, l, l};
     };
 
     // todo fix this mock
     Path LayoutManager::pathToLoadingBay(Location location, LoadingBay loadingBay) {
         Location l = {0, 0, 0};
+        log("Computed path from location to loading bay." + toString(location) + toString(loadingBay));
         return {l, l, l, l};
     }
 }

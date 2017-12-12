@@ -6,7 +6,7 @@ namespace warehouse{
 
 
     void OrderManager::log(std::string msg){
-        std::cout << "Order Manager:" << msg << std::endl;
+//        std::cout << "Order Manager:" << msg << std::endl;
     };
 
     int OrderManager::newOrder() {
@@ -57,10 +57,12 @@ namespace warehouse{
             std::lock_guard<std::mutex> lock(orderManagerMutex);
             for (std::map<int,int>::iterator it = orderIdCapacityMap.begin(); it != orderIdCapacityMap.end(); ++it) {
                 if (it->second <= capacity) {
+                    log("findToDelivery base on capacity. OrderId: " + std::to_string(it->first));
                     return it->first;
                 }
             }
 
+            log("findToDelivery base on capacity. Cannot find any. Return POISON");
             return POISON_ORDER_ID;
         }
     }
