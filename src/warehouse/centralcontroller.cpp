@@ -81,7 +81,7 @@ namespace warehouse {
                 botManager.startDeliveryOrder(orderId, merchandise, shelfSpace,loadingBay);
             }
         }
-
+        return true;
     }
 
 }
