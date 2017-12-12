@@ -14,6 +14,8 @@ namespace warehouse {
 
         std::mutex inventoryMangerMutex;
 
+        void log(std::string msg);
+
     public:
         InventoryManager(std::vector<warehouse::ShelfSpace> shelfSpaces, std::string catalogFileName, std::string carryMerchandiseFileName);
 

@@ -24,8 +24,7 @@ namespace warehouse {
 
     std::string toString(Location l){
         std::string s = "Location: ";
-        char buffer [10];
-        s.append(itoa(10,buffer,l.x)).append(", ").append(itoa(10,buffer,l.y)).append(", ").append(itoa(10,buffer,l.z));
+        s.append(std::to_string(l.x)).append(", ").append(std::to_string(l.y)).append(", ").append(std::to_string(l.z));
         return s;
     };
 
@@ -58,6 +57,14 @@ namespace warehouse {
         }
     };
 
+    std::string toString(ShelfSpace sh){
+        std::string s = "ShelfSpace:";
+        s.append(" id: ").append(std::to_string(sh.shelfId));
+        s.append(" row: ").append(std::to_string(sh.row));
+        s.append(" col: ").append(std::to_string(sh.col));
+        return s;
+    }
+
     struct Merchandise{
         const int id;
         const std::string name;
@@ -71,8 +78,8 @@ namespace warehouse {
 
     std::string toString(Merchandise m){
         std::string s = "Merchandise: ";
-        char buffer [10];
-        s.append(itoa(10,buffer,m.id)).append(", ").append(m.name);
+        s.append(" id: ").append(std::to_string(m.id));
+        s.append(" name: ").append(m.name);
         return s;
     };
 

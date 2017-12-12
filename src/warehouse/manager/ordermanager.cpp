@@ -4,6 +4,11 @@ namespace warehouse{
     OrderManager::OrderManager() {
     }
 
+
+    void OrderManager::log(std::string msg){
+        std::cout << "Order Manager:" << msg << std::endl;
+    };
+
     int OrderManager::newOrder() {
         {
             std::lock_guard<std::mutex> lock(orderManagerMutex);
@@ -13,6 +18,7 @@ namespace warehouse{
             orderIdShelfSpaceMap.insert({orderId,{}});
             orderIdMerchandisesMap.insert({orderId,{}});
             ++nextOrderId;
+            log("Created new order: " + std::to_string(orderId));
             return orderId;
         }
     }
@@ -21,6 +27,7 @@ namespace warehouse{
         {
             std::lock_guard<std::mutex> lock(orderManagerMutex);
             orderStatusMap[orderId] = orderStatus;
+            log("Updated order status: " + std::to_string(orderId));
         }
     }
 
@@ -31,6 +38,7 @@ namespace warehouse{
             orderIdCapacityMap.erase(orderId);
             orderIdShelfSpaceMap.erase(orderId);
             orderIdMerchandisesMap.erase(orderId);
+            log("Removed order: " + std::to_string(orderId));
         }
     }
 
@@ -40,6 +48,7 @@ namespace warehouse{
             orderIdCapacityMap.at(orderId) += merchandise.weight;
             orderIdShelfSpaceMap.at(orderId).push_back(shelfSpace);
             orderIdMerchandisesMap.at(orderId).push_back(merchandise);
+            log("Adding merchandise. OrderId: " + std::to_string(orderId) + toString(merchandise) + toString(shelfSpace));
         }
     }
 

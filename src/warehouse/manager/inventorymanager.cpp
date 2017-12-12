@@ -6,6 +6,10 @@
 #define QUANTITY "quantity"
 
 namespace warehouse {
+    void InventoryManager::log(std::string msg) {
+        std::cout << "Inventory Manager: " << msg << std::endl;
+    };
+
     std::map<int, warehouse::Merchandise> loadMerchandiseCatalog(std::string catalogFileName) {
         std::map<int, warehouse::Merchandise> catalog;
 
@@ -59,6 +63,7 @@ namespace warehouse {
     bool InventoryManager::available(const int merchandiseId, const int quantity){
         {
             std::lock_guard<std::mutex> lock(inventoryMangerMutex);
+            log("Checking availablity, merchandiseId; " + std::to_string(merchandiseId) + ", quantity:"  + std::to_string(quantity));
             return availableMerchandiseShelfSpaceMap.at(merchandiseId).size() > quantity;
         }
     }
@@ -78,6 +83,7 @@ namespace warehouse {
             std::lock_guard<std::mutex> lock(inventoryMangerMutex);
             warehouse::ShelfSpace shelfSpace = availableMerchandiseShelfSpaceMap.at(merchandiseId).back();
             availableMerchandiseShelfSpaceMap.at(merchandiseId).pop_back();
+            log("Poping available merchandise shelfSpace. MerchandiseId: " + std::to_string(merchandiseId) + " " + toString(shelfSpace));
             return shelfSpace;
         }
     };

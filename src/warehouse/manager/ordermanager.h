@@ -19,6 +19,7 @@ namespace warehouse {
         std::map<int, std::vector<warehouse::ShelfSpace>> orderIdShelfSpaceMap;
         std::map<int, std::vector<warehouse::Merchandise>> orderIdMerchandisesMap;
         int nextOrderId = 0;
+        void log(std::string msg);
     public:
         const int POISON_ORDER_ID = -1;
 
