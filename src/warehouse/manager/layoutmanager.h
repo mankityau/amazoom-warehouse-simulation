@@ -30,6 +30,22 @@ namespace warehouse {
          * @return true if leave successfully.
          */
         bool truckLeave(warehouse::LoadingBay loadingBay);
+
+        /**
+         * Computer a path from location to shelf
+         * @param location
+         * @param shelfSpace
+         * @return
+         */
+        Path pathToShelf(Location location, ShelfSpace shelfSpace);
+
+        /**
+         * Computer a path from a location to loadingBay
+         * @param location
+         * @param loadingBay
+         * @return
+         */
+        Path pathToLoadingBay(Location location, LoadingBay loadingBay);
     };
 }
 

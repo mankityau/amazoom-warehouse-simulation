@@ -84,4 +84,22 @@ namespace warehouse {
         return true;
     }
 
+    BotInstruction CentralController::botPollInstruction(Location botLocation) {
+        BotInstructionBase botInstructionBase = botManager.nextInstructionBase(botLocation);
+        if (botInstructionBase.botInstructionType == deliver) {
+            Path pathToShelf = layoutManager.pathToShelf(botLocation, botInstructionBase.targetShelfSpace);
+            Path pathToLoadingBay = layoutManager.pathToLoadingBay(pathToShelf.end, botInstructionBase.loadingBay);
+            BotInstruction instruction = {
+                    deliver,
+                    pathToShelf,
+                    pathToLoadingBay,
+                    botInstructionBase.targetShelfSpace,
+                    botInstructionBase.merchandise
+            };
+            shelfSpaceManager.free(instruction.shelfSpace, instruction.merchandise.weight);
+            return instruction;
+        }
+    }
+
+
 }

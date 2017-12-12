@@ -5,6 +5,23 @@
 #include <tuple>
 
 namespace warehouse {
+    enum BotInstructionType {
+        deliver, restock, poison
+    };
+
+    struct Location {
+        const int x;
+        const int y;
+        const int z;
+    };
+
+    struct Path{
+        const Location init;
+        const Location mid0;
+        const Location mid1;
+        const Location end;
+    };
+
     struct LoadingBay{
         const int id;
     };
@@ -36,6 +53,21 @@ namespace warehouse {
             return std::tie(id, name, weight)
                    < std::tie(other.id, other.name, other.weight);
         }
+    };
+
+    struct BotInstructionBase {
+        const BotInstructionType botInstructionType ;
+        const ShelfSpace targetShelfSpace;
+        const Merchandise merchandise;
+        const LoadingBay loadingBay;
+    };
+
+    struct BotInstruction{
+        const BotInstructionType botInstructionType ;
+        const Path pathToGetItem;
+        const Path pathToPutLoad;
+        const ShelfSpace shelfSpace;
+        const Merchandise merchandise;
     };
 }
 #endif //AMAZOOM_WAREHOUSE_SIMULATION_COMMON_H

@@ -43,6 +43,13 @@ namespace warehouse {
          */
         bool startDelivery(int truckId, int truckCapacity, LoadingBay loadingBay);
 
+        /**
+         * Poll the next instruction to the bot.
+         * @param botLocation
+         * @return
+         */
+        BotInstruction botPollInstruction(Location botLocation);
+
     };
 }
 
