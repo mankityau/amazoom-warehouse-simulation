@@ -1,5 +1,7 @@
 #include <iostream>
 #include "centralcontroller.h"
+#include "manager/botmanager.cpp"
+#include "manager/deliverymanager.cpp"
 #include "manager/layoutmanager.cpp"
 #include "manager/inventorymanager.cpp"
 #include "manager/ordermanager.cpp"
@@ -17,7 +19,9 @@ namespace warehouse {
     layoutManager("./../../data/layout/layout1.json"),
     inventoryManager(layoutManager.getShelfSpaces(), "./../../data/merchandisecatalog.json", "./../../data/carrymerchandise/carrymerchandise1.json"),
     orderManager(),
-    shelfSpaceManager(layoutManager.getShelfSpaces()){//getInput("Layout file name for layout")){
+    shelfSpaceManager(layoutManager.getShelfSpaces()),
+    deliveryManager(),
+    botManager(){//getInput("Layout file name for layout")){
 
         // populate the inventory and shelfspace.
         std::map<warehouse::Merchandise, int> lowStockItem = inventoryManager.getLowStockItems();
@@ -57,4 +61,27 @@ namespace warehouse {
 
         return {true, orderId};
     }
+
+    LoadingBay CentralController::deliveryArrive(){
+        LoadingBay loadingBay = layoutManager.truckArrive();
+        return loadingBay;
+    }
+
+    bool CentralController::startDelivery(int truckId, int truckCapacity, LoadingBay loadingBay) {
+        int remainCapacity = truckCapacity;
+        int orderId = orderManager.findToDeliver(remainCapacity);
+        deliveryManager.startDelivery(truckId);
+        while (orderId != orderManager.POISON_ORDER_ID) {
+            remainCapacity -= orderManager.orderCapacity(orderId);
+            deliveryManager.pushOrderId(truckId, orderId);
+            int numOfMerchandise = orderManager.numOfMerchandise(orderId);
+            for (int i = 0; i < numOfMerchandise; ++i) {
+                Merchandise merchandise = orderManager.merchandiseAt(orderId, i);
+                ShelfSpace shelfSpace = orderManager.shelfSpaceAt(orderId, i);
+                botManager.startDeliveryOrder(orderId, merchandise, shelfSpace,loadingBay);
+            }
+        }
+
+    }
+
 }

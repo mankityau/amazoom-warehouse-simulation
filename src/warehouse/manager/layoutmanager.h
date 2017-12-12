@@ -4,15 +4,32 @@
 #include <iostream>
 #include <vector>
 #include "common.h"
+#include <cpen333/thread/semaphore.h>
 
 namespace warehouse {
     class LayoutManager {
     private:
         const warehouse::Dimension dimension;
         const std::vector<warehouse::ShelfSpace> shelfSpaces;
+        const std::vector<warehouse::LoadingBay> loadingBays;
+        std::vector<warehouse::LoadingBay> freeLoadingBays;
+        cpen333::thread::semaphore freeLoadingBaySemaphore;
     public:
         LayoutManager(std::string fileName);
         std::vector<warehouse::ShelfSpace> getShelfSpaces();
+
+        /**
+         * Return a loading bay once one is ready.
+         * @return
+         */
+        LoadingBay truckArrive();
+
+        /**
+         * A truck is leaving a loadingBay
+         * @param loadingBay
+         * @return true if leave successfully.
+         */
+        bool truckLeave(warehouse::LoadingBay loadingBay);
     };
 }
 
