@@ -5,6 +5,10 @@
 #include <tuple>
 
 namespace warehouse {
+    struct LoadingBay{
+        const int id;
+    };
+
     struct Dimension{
         const int x;
         const int y;

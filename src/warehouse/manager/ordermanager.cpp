@@ -42,4 +42,42 @@ namespace warehouse{
             orderIdMerchandisesMap.at(orderId).push_back(merchandise);
         }
     }
+
+    int OrderManager::findToDeliver(int capacity) {
+        {
+            std::lock_guard<std::mutex> lock(orderManagerMutex);
+            for (std::map<int,int>::iterator it = orderIdCapacityMap.begin(); it != orderIdCapacityMap.end(); ++it) {
+                if (it->second <= capacity) {
+                    return it->first;
+                }
+            }
+
+            return POISON_ORDER_ID;
+        }
+    }
+
+    int OrderManager::orderCapacity(int orderId) {
+        {
+            std::lock_guard<std::mutex> lock(orderManagerMutex);
+            return orderIdCapacityMap.at(orderId);
+        }
+    }
+
+    int OrderManager::numOfMerchandise(int orderId) {
+        {
+            std::lock_guard<std::mutex> lock(orderManagerMutex);
+            return orderIdMerchandisesMap.at(orderId).size();
+        }
+    }
+
+
+    warehouse::Merchandise OrderManager::merchandiseAt(int orderId, int index) {
+        std::lock_guard<std::mutex> lock(orderManagerMutex);
+        return orderIdMerchandisesMap.at(orderId).at(index);
+    };
+
+    warehouse::ShelfSpace OrderManager::shelfSpaceAt(int orderId, int index) {
+        std::lock_guard<std::mutex> lock(orderManagerMutex);
+        return orderIdShelfSpaceMap.at(orderId).at(index);
+    }
 }

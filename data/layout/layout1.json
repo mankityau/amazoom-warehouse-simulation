@@ -6,5 +6,6 @@
   },
   "shelfProperty": {
     "maxCapacityPerShelf" : 10
-  }
+  },
+  "loadingBayNum" : 2
 }

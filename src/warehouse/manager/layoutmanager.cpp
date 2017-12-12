@@ -10,6 +10,7 @@
 
 #define SHELF_PROPERTY "shelfProperty"
 #define MAX_CAP_PER_SHELF "maxCapacityPerShelf"
+#define LOADING_BAY_NUM "loadingBayNum"
 
 using JSON = nlohmann::json;
 
@@ -50,13 +51,46 @@ namespace warehouse{
         throw warehouse::InitManagerException();
     }
 
+    std::vector<warehouse::LoadingBay> loadLoadingBays(std::string fileName, warehouse::Dimension dimension){
+        std::vector<warehouse::LoadingBay> loadingBays;
+
+        std::ifstream fin(fileName);
+        if (fin.is_open()){
+            JSON layoutJson;
+            fin >> layoutJson;
+            const int loadingBayNum = layoutJson[LOADING_BAY_NUM];
+            for (int i = 0; i < loadingBayNum; ++i){
+                loadingBays.push_back({i});
+            }
+        }
+        return loadingBays;
+    }
+
     LayoutManager::LayoutManager(std::string fileName) :
             dimension(loadDimension(fileName)),
-            shelfSpaces(loadShelfSpaces(fileName, this->dimension)){
+            shelfSpaces(loadShelfSpaces(fileName, this->dimension)),
+            loadingBays(loadLoadingBays(fileName, this->dimension)){
+        for (int i = 0; i < loadingBays.size(); ++i) {
+            freeLoadingBays.push_back(loadingBays.at(i));
+            freeLoadingBaySemaphore.notify();
+        }
 
     }
 
     std::vector<warehouse::ShelfSpace> LayoutManager::getShelfSpaces(){
         return this->shelfSpaces;
+    }
+
+    LoadingBay LayoutManager::truckArrive() {
+        freeLoadingBaySemaphore.wait();
+        warehouse::LoadingBay loadingBay = freeLoadingBays.back();
+        freeLoadingBays.pop_back();
+        return loadingBay;
+    }
+
+    bool LayoutManager::truckLeave(LoadingBay loadingBay) {
+        freeLoadingBays.push_back(loadingBay);
+        freeLoadingBaySemaphore.notify();
+        return true;
     }
 }

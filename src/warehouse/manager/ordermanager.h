@@ -20,6 +20,8 @@ namespace warehouse {
         std::map<int, std::vector<warehouse::Merchandise>> orderIdMerchandisesMap;
         int nextOrderId = 0;
     public:
+        const int POISON_ORDER_ID = -1;
+
         /**
          * Constructor
          */
@@ -53,6 +55,43 @@ namespace warehouse {
          * @return
          */
         bool addMerchandise(int orderId, warehouse::Merchandise merchandise, warehouse::ShelfSpace shelfSpace);
+
+        /**
+         * find an order to delivery base on the max capacity the deliver can handle
+         * @param capacity
+         * @return order id to deliver, POISON_ORDER_ID if nothing to deliver
+         */
+        int findToDeliver(int capacity);
+
+        /**
+         * return the capacity of an order
+         * @param orderId
+         * @return
+         */
+        int orderCapacity(int orderId);
+
+        /**
+         * return the number of merchandise in an order
+         * @param orderId
+         * @return
+         */
+        int numOfMerchandise(int orderId);
+
+        /**
+         * return the merchandise of an orderId, and index
+         * @param orderId
+         * @param index
+         * @return
+         */
+        warehouse::Merchandise merchandiseAt(int orderId, int index);
+
+        /**
+         * return the shelfspace of an orderId, and index
+         * @param orderId
+         * @param index
+         * @return
+         */
+        warehouse::ShelfSpace shelfSpaceAt(int orderId, int index);
     };
 }
 
