@@ -8,6 +8,7 @@ namespace warehouse{
 
     Bot::Bot(BotToCentralClientMock* botToCentralClientMock, int id) : id(id){
         this->botToCentralClientMock = botToCentralClientMock;
+        log("started.");
     }
 
     void Bot::run(){
